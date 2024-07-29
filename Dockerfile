@@ -10,7 +10,7 @@ COPY . .
 
 FROM gcr.io/distroless/base
 
-COPY --from=base /main/app .
+COPY --from=base /app/main .
 COPY --from=base /app/src ./src
 EXPOSE 3000
 
