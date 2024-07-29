@@ -1,4 +1,5 @@
-FROM node:latest as Base
+# Stage 1: Build the application
+FROM node:latest AS build
 
 WORKDIR /app
 
@@ -8,10 +9,13 @@ RUN npm install
 
 COPY . .
 
-FROM gcr.io/distroless/base
+# Stage 2: Create the final image
+FROM gcr.io/distroless/nodejs
 
-COPY --from=base /app/main .
-COPY --from=base /app/src ./src
+WORKDIR /app
+
+COPY --from=build /app .
+
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD ["npm", "start"]
