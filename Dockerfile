@@ -14,7 +14,7 @@ FROM gcr.io/distroless/nodejs
 
 WORKDIR /app
 
-COPY --from=build /app .
+COPY --from=build /app/npm  .
 
 EXPOSE 3000
 
