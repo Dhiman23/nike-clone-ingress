@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:latest AS build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -14,8 +14,10 @@ FROM gcr.io/distroless/nodejs
 
 WORKDIR /app
 
-COPY --from=build /app/npm  .
+COPY --from=build /app .
 
+# Expose the application port
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Command to run the application
+CMD ["node", "src/index.js"]
