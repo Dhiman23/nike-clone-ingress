@@ -20,4 +20,4 @@ COPY --from=build /app .
 EXPOSE 3000
 
 # Command to run the application
-CMD ["node", "src/index.js"]
+CMD ["node", "index.js"]
