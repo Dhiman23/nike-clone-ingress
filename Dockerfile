@@ -16,7 +16,7 @@ COPY . .
 RUN ls -al /app/src
 
 # Stage 2: Create the final image
-FROM gcr.io/distroless/nodejs:20
+FROM gcr.io/distroless/nodejs
 
 WORKDIR /app
 
