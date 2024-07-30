@@ -6,24 +6,26 @@ WORKDIR /app
 # Copy package.json and package-lock.json if available
 COPY package*.json ./
 
-RUN echo "Happy Learning"
-
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code
 COPY . .
 
-# Stage 2: Create the final image
-FROM gcr.io/distroless/nodejs:18
+# Build the React application
+RUN npm run build
 
-WORKDIR /app
+# Stage 2: Serve the application
+FROM nginx:stable-alpine
 
-# Copy the built application and node_modules from the build stage
-COPY --from=build /app .
+# Copy built assets from the build stage
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose the application port
+# Copy custom nginx config if necessary
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose the port that the app runs on
 EXPOSE 3000
 
-# Command to run the application
-CMD ["npm", "start"]
+# Start nginx server
+CMD ["nginx", "-g", "daemon off;"]
